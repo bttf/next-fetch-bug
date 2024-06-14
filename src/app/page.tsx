@@ -1,6 +1,38 @@
 import Image from "next/image";
 
-export default function Home() {
+const HOSTNAME =
+  process.env.NODE_ENV === "production"
+    ? "https://hypothesis-generator.vercel.app"
+    : "https://686d-136-62-103-63.ngrok-free.app"; // local dev
+
+export default async function Home() {
+  const endpoint = "/test";
+  console.log("pushing task to %s", {
+    url: `${process.env.QSTASH_URL}${HOSTNAME}${endpoint}`,
+  });
+  try {
+    const res = await fetch(`${process.env.QSTASH_URL}${HOSTNAME}${endpoint}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.QSTASH_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({}),
+    });
+    if (res.ok) {
+      console.log("pushTask - success", {
+        endpoint,
+        status: res.status,
+      });
+    } else {
+      console.error("pushTask - error", {
+        endpoint,
+        status: res.status,
+      });
+    }
+  } catch (e) {
+    console.error("pushTask - error", { e });
+  }
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
