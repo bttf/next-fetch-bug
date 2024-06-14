@@ -17,6 +17,7 @@ export default async function Home() {
       method: "POST",
       headers: {
         Authorization: `Bearer ${process.env.QSTASH_TOKEN}`,
+        "Upstash-Content-Based-Deduplication": "true",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({}),
