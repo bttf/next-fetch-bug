@@ -1,5 +1,7 @@
 import Image from "next/image";
 
+export const dynamic = "force-dynamic";
+
 const HOSTNAME =
   process.env.NODE_ENV === "production"
     ? "https://hypothesis-generator.vercel.app"
